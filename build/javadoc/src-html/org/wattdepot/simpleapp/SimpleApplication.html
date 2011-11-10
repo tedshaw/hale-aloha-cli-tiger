@@ -1,0 +1,121 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package org.wattdepot.simpleapp;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.util.Calendar;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import java.util.List;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import java.util.Locale;<a name="line.5"></a>
+<FONT color="green">006</FONT>    import javax.xml.datatype.XMLGregorianCalendar;<a name="line.6"></a>
+<FONT color="green">007</FONT>    import org.wattdepot.client.WattDepotClient;<a name="line.7"></a>
+<FONT color="green">008</FONT>    import org.wattdepot.resource.sensordata.jaxb.SensorData;<a name="line.8"></a>
+<FONT color="green">009</FONT>    import org.wattdepot.resource.source.jaxb.Source;<a name="line.9"></a>
+<FONT color="green">010</FONT>    <a name="line.10"></a>
+<FONT color="green">011</FONT>    /**<a name="line.11"></a>
+<FONT color="green">012</FONT>     * A simple application that shows basic interaction with a running WattDepot server.<a name="line.12"></a>
+<FONT color="green">013</FONT>     * @author Philip Johnson<a name="line.13"></a>
+<FONT color="green">014</FONT>     */<a name="line.14"></a>
+<FONT color="green">015</FONT>    public class SimpleApplication {<a name="line.15"></a>
+<FONT color="green">016</FONT>    <a name="line.16"></a>
+<FONT color="green">017</FONT>      /**<a name="line.17"></a>
+<FONT color="green">018</FONT>       * Illustrate simple interaction with WattDepot.<a name="line.18"></a>
+<FONT color="green">019</FONT>       * @param args The first arg should be the URL to a running WattDepot server.<a name="line.19"></a>
+<FONT color="green">020</FONT>       * @throws Exception If problems occur communicating with the server.<a name="line.20"></a>
+<FONT color="green">021</FONT>       */<a name="line.21"></a>
+<FONT color="green">022</FONT>      public static void main(String[] args) throws Exception {<a name="line.22"></a>
+<FONT color="green">023</FONT>        String url = args[0];<a name="line.23"></a>
+<FONT color="green">024</FONT>        // Create a client.<a name="line.24"></a>
+<FONT color="green">025</FONT>        WattDepotClient client = new WattDepotClient(url);<a name="line.25"></a>
+<FONT color="green">026</FONT>        // Check to make sure a connection can be made. <a name="line.26"></a>
+<FONT color="green">027</FONT>        // If no connection, then exit right now.<a name="line.27"></a>
+<FONT color="green">028</FONT>        if (client.isHealthy()) {<a name="line.28"></a>
+<FONT color="green">029</FONT>          System.out.format("Connected successfully to: %s%n", url);<a name="line.29"></a>
+<FONT color="green">030</FONT>        }<a name="line.30"></a>
+<FONT color="green">031</FONT>        else {<a name="line.31"></a>
+<FONT color="green">032</FONT>          System.out.format("Could not connect to: %s%n", url);<a name="line.32"></a>
+<FONT color="green">033</FONT>          return;<a name="line.33"></a>
+<FONT color="green">034</FONT>        }<a name="line.34"></a>
+<FONT color="green">035</FONT>        // Get the list of sources and print them out.<a name="line.35"></a>
+<FONT color="green">036</FONT>        System.out.println("WattDepot sources defined for this URL:");<a name="line.36"></a>
+<FONT color="green">037</FONT>        List&lt;Source&gt; sources = client.getSources();<a name="line.37"></a>
+<FONT color="green">038</FONT>        for (Source source : sources) {<a name="line.38"></a>
+<FONT color="green">039</FONT>          System.out.format("Name: %20s      %s%n", source.getName(), source.getDescription());<a name="line.39"></a>
+<FONT color="green">040</FONT>        }<a name="line.40"></a>
+<FONT color="green">041</FONT>        <a name="line.41"></a>
+<FONT color="green">042</FONT>        // Find the last sensor data from the first source in our list.<a name="line.42"></a>
+<FONT color="green">043</FONT>        String sourceName = sources.get(0).getName();<a name="line.43"></a>
+<FONT color="green">044</FONT>        SensorData data = client.getLatestSensorData(sourceName);<a name="line.44"></a>
+<FONT color="green">045</FONT>        <a name="line.45"></a>
+<FONT color="green">046</FONT>        // Show the sensor data item<a name="line.46"></a>
+<FONT color="green">047</FONT>        System.out.format("Latest energy data from source %s is %s.%n", sourceName, data);<a name="line.47"></a>
+<FONT color="green">048</FONT>        <a name="line.48"></a>
+<FONT color="green">049</FONT>        // Let's figure out how long ago this energy information occurred.<a name="line.49"></a>
+<FONT color="green">050</FONT>        XMLGregorianCalendar timestamp = data.getTimestamp();<a name="line.50"></a>
+<FONT color="green">051</FONT>        long now = Calendar.getInstance(Locale.US).getTimeInMillis();<a name="line.51"></a>
+<FONT color="green">052</FONT>        long latency = now - timestamp.toGregorianCalendar().getTimeInMillis();<a name="line.52"></a>
+<FONT color="green">053</FONT>        System.out.format("This data is %s seconds old.", (latency / 1000));<a name="line.53"></a>
+<FONT color="green">054</FONT>      }<a name="line.54"></a>
+<FONT color="green">055</FONT>    }<a name="line.55"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>
