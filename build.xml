@@ -1,6 +1,6 @@
-<project name="wattdepot-simpleapp" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="hale-aloha-cli-tiger" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
   <description>
-  Top-level build file for the WattDepot simpleapp system. 
+  Top-level build file for the Wattdepot Hale-Aloha-CLI-Tiger system. 
   The default target compiles the system.
   </description>
 
@@ -21,7 +21,7 @@
   </target>
 
   <!-- Basic properties for this system. -->
-  <property name="system.name" value="wattdepot-simpleapp" />
+  <property name="system.name" value="hale-aloha-cli-tiger" />
   <property name="majorVersionNumber" value="1" />
   <property name="minorVersionNumber" value="0" />
   <tstamp>
