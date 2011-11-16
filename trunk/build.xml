@@ -1,6 +1,6 @@
-<project name="hale-aloha-cli-tiger" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="wattdepot-simpleapp" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
   <description>
-  Top-level build file for the Wattdepot Hale-Aloha-CLI-Tiger system. 
+  Top-level build file for the WattDepot simpleapp system. 
   The default target compiles the system.
   </description>
 
@@ -47,7 +47,7 @@
   </target>
   
   <target name="run" depends="compile" description="Runs the simple application.">
-    <java classname="org.wattdepot.simpleapp.SimpleApplication" fork="yes" maxmemory="768m">
+    <java classname="edu.hawaii.halealohacli.command.CurrentPower" fork="yes" maxmemory="768m">
       <classpath>
         <pathelement location="${build.dir}/classes" />
         <path refid="compile.classpath" />
