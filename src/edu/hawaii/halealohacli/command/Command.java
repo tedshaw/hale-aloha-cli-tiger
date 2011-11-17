@@ -1,7 +1,6 @@
 package edu.hawaii.halealohacli.command;
 
 import org.wattdepot.client.WattDepotClient;
-import org.wattdepot.client.WattDepotClientException;
 
 /**
  * @author Ardell Klemme
@@ -14,8 +13,10 @@ public interface Command {
   /**
    * Basic run method that will run the command accepting list of strings as parameters.
    * 
+   * @param client is the WattDepotClient passed from the Main class.
    * @param parameters needed for running command.
-   * @throws WattDepotClientException 
+   * @throws Exception this is a catch-all for exceptions.  We'll generate more detailed exceptions
+   * at a later date. 
    */
-  public void run (WattDepotClient client, String ... parameters) throws WattDepotClientException;
+  public void run (WattDepotClient client, String ... parameters) throws Exception;
 }
