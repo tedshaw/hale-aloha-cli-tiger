@@ -22,7 +22,7 @@
   </target>
 
   <property name="findbugs.dir" location="${build.dir}/findbugs" />
-  <property name="findbugs.failOnError" value="true" />
+  <property name="findbugs.failOnError" value="false" />
 
   <target name="findbugs" depends="clean, findbugs.tool, findbugs.report" description="Runs the FindBugs tool and report." />
 
