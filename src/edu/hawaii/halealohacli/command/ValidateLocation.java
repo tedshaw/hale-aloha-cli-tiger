@@ -44,4 +44,13 @@ public class ValidateLocation {
   public static boolean isValid (String argument) {
     return locations.contains(argument);
   }
+  
+  /**
+   * Default constructor for ValidateLocation class.
+   * 
+   * @param location is to be validated by the class.
+   */
+  public ValidateLocation(String location) {
+    //default constructor
+  }
 }
