@@ -1,9 +1,10 @@
 package edu.hawaii.halealohacli.command;
 
-import java.util.List;
+import java.util.Calendar;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
 import org.wattdepot.resource.sensordata.jaxb.SensorData;
-import org.wattdepot.resource.source.jaxb.Source;
 
 /**
  * Gets the current power for a tower or a lounge.
@@ -30,6 +31,7 @@ public class CurrentPower {
   /**
    * Get the latest recorded power for a source.
    * Throws an exception if this data is more than one minute old.
+   * This method is adapted from Phil Johnson's sample code
    * @param source The source of interest.
    * @return The latest recorded power.
    * @throws Exception If latency of latest power exceeds 60 seconds. 
@@ -53,24 +55,22 @@ public class CurrentPower {
   */
   public static void main (String[] args) throws Exception  {
     CurrentPower application = new CurrentPower(args[0]);
-    WattDepotClient client = application.getClient();
-
     
-   /* Calendar cal = Calendar.getInstance();
+    Calendar cal = Calendar.getInstance();
     DatatypeFactory dtf = DatatypeFactory.newInstance();
-    XMLGregorianCalendar now = dtf.newXMLGregorianCalendar(); 
-    now.setYear(cal.get(Calendar.YEAR));
-    now.setDay(cal.get(Calendar.DAY_OF_MONTH));
-    now.setMonth(cal.get(Calendar.MONTH) + 1);
-    now.setHour(cal.get(Calendar.HOUR_OF_DAY));
-    now.setMinute(cal.get(Calendar.MINUTE) - 1);
-    now.setSecond(cal.get(Calendar.SECOND)); */
-    
-    List<Source> sources = client.getSources();
-    String sourceName = sources.get(0).getName();
+    XMLGregorianCalendar nowTime = dtf.newXMLGregorianCalendar(); 
+    XMLGregorianCalendar nowDate = dtf.newXMLGregorianCalendar(); 
+    nowDate.setYear(cal.get(Calendar.YEAR));
+    nowDate.setDay(cal.get(Calendar.DAY_OF_MONTH));
+    nowDate.setMonth(cal.get(Calendar.MONTH) + 1);
+    nowTime.setHour(cal.get(Calendar.HOUR_OF_DAY));
+    nowTime.setMinute(cal.get(Calendar.MINUTE) - 1);
+    nowTime.setSecond(cal.get(Calendar.SECOND));
 
-    System.out.format("Current power for %s is %,.2f kilowatts.%n", 
-        sourceName, (application.getCurrentPower(sourceName) / 1000));
+    String sourceName = args[1];
+    
+    System.out.format("Current power for  %s as of %s %s is %,.2f kilowatts.%n", 
+        sourceName, nowDate, nowTime, (application.getCurrentPower(sourceName) / 1000));
         
   }
 
