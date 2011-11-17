@@ -43,6 +43,7 @@ public class CurrentPower {
   
   /**
    * Returns the WattDepotClient associated with this instance. 
+   * Method modified from Phil Johnson's sample code.
    * @return The WattDepotClient.
    */
   public WattDepotClient getClient() {
