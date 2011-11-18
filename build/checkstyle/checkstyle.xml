@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.4">
-<file name="/Users/mizumoto/Desktop/wattdepot-project/src/org/wattdepot/simpleapp/SimpleApplication.java">
+<file name="/Users/mizumoto/Desktop/wattdepot-project/src/edu/hawaii/halealohacli/Main.java">
+</file>
+<file name="/Users/mizumoto/Desktop/wattdepot-project/src/edu/hawaii/halealohacli/command/Command.java">
+</file>
+<file name="/Users/mizumoto/Desktop/wattdepot-project/src/edu/hawaii/halealohacli/command/Help.java">
+</file>
+<file name="/Users/mizumoto/Desktop/wattdepot-project/src/edu/hawaii/halealohacli/processor/CommandProcessor.java">
 </file>
 </checkstyle>

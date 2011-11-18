@@ -1,0 +1,126 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package edu.hawaii.halealohacli.processor;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import javax.xml.datatype.DatatypeConfigurationException;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import edu.hawaii.halealohacli.command.Help;<a name="line.4"></a>
+<FONT color="green">005</FONT>    <a name="line.5"></a>
+<FONT color="green">006</FONT>    /**<a name="line.6"></a>
+<FONT color="green">007</FONT>     * Processes the command given by the user<a name="line.7"></a>
+<FONT color="green">008</FONT>     * and executes then executes it.<a name="line.8"></a>
+<FONT color="green">009</FONT>     * @author mizumoto<a name="line.9"></a>
+<FONT color="green">010</FONT>     *<a name="line.10"></a>
+<FONT color="green">011</FONT>     */<a name="line.11"></a>
+<FONT color="green">012</FONT>    public class CommandProcessor {<a name="line.12"></a>
+<FONT color="green">013</FONT>      <a name="line.13"></a>
+<FONT color="green">014</FONT>      private String userInput;<a name="line.14"></a>
+<FONT color="green">015</FONT>      <a name="line.15"></a>
+<FONT color="green">016</FONT>      /**<a name="line.16"></a>
+<FONT color="green">017</FONT>       * Constuctor method to access class level methods.<a name="line.17"></a>
+<FONT color="green">018</FONT>       * @param userInput Command given by the user.<a name="line.18"></a>
+<FONT color="green">019</FONT>       */<a name="line.19"></a>
+<FONT color="green">020</FONT>      public CommandProcessor(String userInput)  {<a name="line.20"></a>
+<FONT color="green">021</FONT>        this.userInput = userInput;<a name="line.21"></a>
+<FONT color="green">022</FONT>      }<a name="line.22"></a>
+<FONT color="green">023</FONT>      <a name="line.23"></a>
+<FONT color="green">024</FONT>      /**<a name="line.24"></a>
+<FONT color="green">025</FONT>       * Chooses module based on the command input.<a name="line.25"></a>
+<FONT color="green">026</FONT>       * @param command Command given by the user.<a name="line.26"></a>
+<FONT color="green">027</FONT>       */<a name="line.27"></a>
+<FONT color="green">028</FONT>      public void chooseModule(String command)  {<a name="line.28"></a>
+<FONT color="green">029</FONT>        if ("current-power".equals(command))  {<a name="line.29"></a>
+<FONT color="green">030</FONT>          System.out.println("currentPower");<a name="line.30"></a>
+<FONT color="green">031</FONT>        }<a name="line.31"></a>
+<FONT color="green">032</FONT>        else if ("daily-energy".equals(command))  {<a name="line.32"></a>
+<FONT color="green">033</FONT>          System.out.println("dailyEnergy");<a name="line.33"></a>
+<FONT color="green">034</FONT>        } <a name="line.34"></a>
+<FONT color="green">035</FONT>        else if ("energy-since".equals(command))  {<a name="line.35"></a>
+<FONT color="green">036</FONT>          System.out.println("energySince");<a name="line.36"></a>
+<FONT color="green">037</FONT>        } <a name="line.37"></a>
+<FONT color="green">038</FONT>        else if ("rank-towers".equals(command))  {<a name="line.38"></a>
+<FONT color="green">039</FONT>          System.out.println("rankTowers");<a name="line.39"></a>
+<FONT color="green">040</FONT>        } <a name="line.40"></a>
+<FONT color="green">041</FONT>        else if ("help".equals(command))  {<a name="line.41"></a>
+<FONT color="green">042</FONT>          Help.run();<a name="line.42"></a>
+<FONT color="green">043</FONT>        } <a name="line.43"></a>
+<FONT color="green">044</FONT>        else  {<a name="line.44"></a>
+<FONT color="green">045</FONT>          System.out.println("Not a valid command");<a name="line.45"></a>
+<FONT color="green">046</FONT>        }<a name="line.46"></a>
+<FONT color="green">047</FONT>      }<a name="line.47"></a>
+<FONT color="green">048</FONT>      <a name="line.48"></a>
+<FONT color="green">049</FONT>      <a name="line.49"></a>
+<FONT color="green">050</FONT>      /**<a name="line.50"></a>
+<FONT color="green">051</FONT>       * Runs all error checks on the command and executes it<a name="line.51"></a>
+<FONT color="green">052</FONT>       * if command is valid.<a name="line.52"></a>
+<FONT color="green">053</FONT>       * @throws DatatypeConfigurationException <a name="line.53"></a>
+<FONT color="green">054</FONT>       */<a name="line.54"></a>
+<FONT color="green">055</FONT>      public void run() throws DatatypeConfigurationException  {<a name="line.55"></a>
+<FONT color="green">056</FONT>        CommandProcessor input = new CommandProcessor(this.userInput);<a name="line.56"></a>
+<FONT color="green">057</FONT>        String[] cmd = this.userInput.split(" ");<a name="line.57"></a>
+<FONT color="green">058</FONT>        input.chooseModule(cmd[0]);<a name="line.58"></a>
+<FONT color="green">059</FONT>        }<a name="line.59"></a>
+<FONT color="green">060</FONT>    }<a name="line.60"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>
