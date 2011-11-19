@@ -3,6 +3,8 @@ package edu.hawaii.halealohacli;
 import java.util.Scanner;
 import org.wattdepot.client.WattDepotClient;
 
+import edu.hawaii.halealohacli.processor.CommandProcessor;
+
 /**
  * Main class that prompts the user for commands.
  * @author Matthew Mizumoto
@@ -32,6 +34,8 @@ public class Main {
     Scanner keybd = new Scanner(System.in);
     String input = keybd.nextLine();
       while (!("quit".equals(input)))  {
+        CommandProcessor command = new CommandProcessor(input);
+        command.run();
         input = keybd.nextLine();
       }
   }
