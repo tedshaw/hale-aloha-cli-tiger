@@ -71,7 +71,7 @@ public class EnergySince implements Command {
 
     // calculate power since.
     try {
-      powerUsed = getEnergyConsumed(area, searchDate, lastGregDate, 0);
+      powerUsed = getEnergyConsumed(area, searchDate, lastGregDate, 0) / 1000.0;
     }
     catch (WattDepotClientException e) {
       // TODO Auto-generated catch block
@@ -125,10 +125,27 @@ public class EnergySince implements Command {
    */
   public String[] getDateTime(XMLGregorianCalendar gregorianDate) {
     String[] dateTime = new String[2];
-    dateTime[0] = gregorianDate.getYear() + "-" + gregorianDate.getMonth() + "-" +
-        gregorianDate.getDay();
-    dateTime[1] = gregorianDate.getHour() + ":" + gregorianDate.getMinute() + ":" +
-        gregorianDate.getSecond();
+    String year, month, day, hour, minute, second;
+    year = gregorianDate.getYear() + "";
+    month = checkTens(gregorianDate.getMonth());
+    day = checkTens(gregorianDate.getDay());
+    hour = checkTens(gregorianDate.getHour());
+    minute = checkTens(gregorianDate.getMinute());
+    second = checkTens(gregorianDate.getSecond());
+    
+    dateTime[0] = year + "-" + month + "-" + day;
+    dateTime[1] = hour + ":" + minute + ":" + second;
     return dateTime;
+  }
+  
+  /**
+   * Checks a positive integer to see if it is below 10, if so turn it into a string with
+   * a preceding "0", else return a string of the number.
+   * 
+   * @param num Integer to change to string.
+   * @return String representation of num.
+   */
+  public String checkTens (int num) {
+    return ("" + (num < 10 ? "0" + num : num));
   }
 }
