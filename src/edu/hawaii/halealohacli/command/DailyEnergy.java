@@ -9,32 +9,30 @@ import org.wattdepot.resource.source.jaxb.Source;
 
 /**
  * Used for obtaining the amount of energy used on a particular day.
+ * 
  * @author Terrence Chida
- *
+ * 
  */
 public class DailyEnergy {
 
   /*
-  private WattDepotClient client;
-  */
+   * private WattDepotClient client;
+   */
 
   /**
    * Constructor for the DailyEnergy class.
+   * 
    * @param client The client passed in from the main method.
    */
   /*
-  public DailyEnergy(WattDepotClient client) {
-    this.client = client;
-  }
-  */
+   * public DailyEnergy(WattDepotClient client) { this.client = client; }
+   */
 
   /**
    * Runs the program.
    * 
-   * @param args
-   *          Command line arguments.
-   * @throws Exception
-   *           Any Exception.
+   * @param args Command line arguments.
+   * @throws Exception Any Exception.
    */
   // @Override
   public static void main(String[] args) throws Exception {
@@ -62,21 +60,17 @@ public class DailyEnergy {
           List<Source> sources = client.getSources();
           Source source = sources.get(0);
           String sourceName = source.getName();
-          XMLGregorianCalendar now = client.getLatestSensorData(sourceName)
-              .getTimestamp();
+          XMLGregorianCalendar now = client.getLatestSensorData(sourceName).getTimestamp();
           int thisMonth = now.getMonth();
           int today = now.getDay();
-          XMLGregorianCalendar now2 = client.getLatestSensorData(sourceName)
-              .getTimestamp();
-          XMLGregorianCalendar start = DailyEnergy.day(now, year, month, day,
-              0, 0, 0, 0);
-          XMLGregorianCalendar end = DailyEnergy.day(now2, year, month, day,
-              23, 59, 59, 999);
+          XMLGregorianCalendar now2 = client.getLatestSensorData(sourceName).getTimestamp();
+          XMLGregorianCalendar start = DailyEnergy.day(now, year, month, day, 0, 0, 0, 0);
+          XMLGregorianCalendar end = DailyEnergy.day(now2, year, month, day, 23, 59, 59, 999);
           // Check to see if input date is before today's date.
           if (end.getMonth() <= thisMonth && end.getDay() < today) {
             energy = client.getEnergyConsumed(sourceName, start, end, 1439);
-            System.out.print(tower + "'s energy consumption for " + date
-                + " was: " + (Math.round(energy) / 1000) + " kWh.");
+            System.out.print(tower + "'s energy consumption for " + date + " was: "
+                + (Math.round(energy) / 1000) + " kWh.");
           }
           else {
             System.out.println("Date must be before today.");
@@ -94,26 +88,18 @@ public class DailyEnergy {
   /**
    * Creates an XMLGregorianCalendar date.
    * 
-   * @param today
-   *          Today's date.
-   * @param year
-   *          The year to set.
-   * @param month
-   *          The month to set.
-   * @param day
-   *          The day to set.
-   * @param hour
-   *          The hour to set.
-   * @param min
-   *          The minute to set.
-   * @param sec
-   *          The second to set.
-   * @param millisec
-   *          The millisecond to set.
+   * @param today Today's date.
+   * @param year The year to set.
+   * @param month The month to set.
+   * @param day The day to set.
+   * @param hour The hour to set.
+   * @param min The minute to set.
+   * @param sec The second to set.
+   * @param millisec The millisecond to set.
    * @return The XMLGregorianCalendar date.
    */
-  public static XMLGregorianCalendar day(XMLGregorianCalendar today, int year,
-      int month, int day, int hour, int min, int sec, int millisec) {
+  public static XMLGregorianCalendar day(XMLGregorianCalendar today, int year, int month, int day,
+      int hour, int min, int sec, int millisec) {
     XMLGregorianCalendar d = today;
     d.setYear(year);
     d.setMonth(month);
