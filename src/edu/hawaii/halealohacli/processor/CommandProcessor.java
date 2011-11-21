@@ -2,6 +2,7 @@ package edu.hawaii.halealohacli.processor;
 
 import org.wattdepot.client.WattDepotClient;
 import edu.hawaii.halealohacli.command.CurrentPower;
+import edu.hawaii.halealohacli.command.EnergySince;
 import edu.hawaii.halealohacli.command.Help;
 
 /**
@@ -42,6 +43,8 @@ public class CommandProcessor {
     }
     else if ("energy-since".equals(command)) {
       System.out.println("energySince");
+      EnergySince energySince = new EnergySince(client);
+      energySince.run(userInput);
     }
     else if ("rank-towers".equals(command)) {
       System.out.println("rankTowers");

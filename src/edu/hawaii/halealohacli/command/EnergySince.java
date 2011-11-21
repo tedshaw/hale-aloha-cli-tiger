@@ -32,7 +32,6 @@ public class EnergySince implements Command {
    * Executes the command, returning the energy consumed since the date provided for a specific
    * lounge and tower.
    * 
-   * @see edu.hawaii.halealohacli.command.Command#run(java.lang.String[])
    * @param parameters The string sent to run from CommandProcessor class.
    * @throws Exception If there are problems getting date information and power data from server.
    */
@@ -42,13 +41,12 @@ public class EnergySince implements Command {
     String[] commandWithParameters = parameters.split(" ");
     String area = commandWithParameters[1];
 
-    // get lastest date and time
+    //ping server for last updated sensor data.
     SensorData pinged = this.client.getLatestSensorData(area);
+    //get timestamp from last sensor data.
     XMLGregorianCalendar lastGregDate = pinged.getTimestamp();
-    String lastStrTime =  lastGregDate.getHour() + ":" + lastGregDate.getMinute() + ":" +
-        lastGregDate.getSecond();
-    String lastStrDate = lastGregDate.getYear() + "-" + lastGregDate.getMonth() + "-" +
-        lastGregDate.getDay();
+    //get lastest date and time, each in string format.  
+    String[] lastDateTime = getDateTime(lastGregDate);
 
     //create search date variable
     String sDate = commandWithParameters[2];
@@ -80,8 +78,8 @@ public class EnergySince implements Command {
       e.printStackTrace();
     }
 
-    System.out.format("Total energy consumption by %s 00:00:00 from %s to %s %s is: %f kWh. \n", 
-        area, sDate, lastStrDate, lastStrTime, powerUsed);
+    System.out.format("Total energy consumption by %s from %s 00:00:00 to %s %s is: %.1f kWh. \n", 
+        area, sDate, lastDateTime[0], lastDateTime[1], powerUsed);
   }
 
   /**
@@ -116,5 +114,21 @@ public class EnergySince implements Command {
       return true;
     }
     return false;
+  }
+  
+  /**
+   * Gets string values for the date and time from a GregorianCalendar object.
+   * 
+   * @param gregorianDate The GregorianCalendar object containing our date and time values.
+   * @return A String array with string values for the yyyy-MM-dd, and 00:00:00 formated
+   * date and time respectively. 
+   */
+  public String[] getDateTime(XMLGregorianCalendar gregorianDate) {
+    String[] dateTime = new String[2];
+    dateTime[0] = gregorianDate.getYear() + "-" + gregorianDate.getMonth() + "-" +
+        gregorianDate.getDay();
+    dateTime[1] = gregorianDate.getHour() + ":" + gregorianDate.getMinute() + ":" +
+        gregorianDate.getSecond();
+    return dateTime;
   }
 }
