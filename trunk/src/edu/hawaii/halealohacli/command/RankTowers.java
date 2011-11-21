@@ -99,7 +99,6 @@ public class RankTowers {
         System.out.format("Could not connect to: %s%n", url);
         return;
       }
-
     }
   } // End main()
 
