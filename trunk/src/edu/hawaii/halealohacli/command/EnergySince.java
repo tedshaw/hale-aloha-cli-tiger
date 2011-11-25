@@ -37,49 +37,52 @@ public class EnergySince implements Command {
    */
   @Override
   public void run(String parameters) throws Exception {
-    
+
     String[] commandWithParameters = parameters.split(" ");
     String area = commandWithParameters[1];
 
-    //ping server for last updated sensor data.
-    SensorData pinged = this.client.getLatestSensorData(area);
-    //get timestamp from last sensor data.
-    XMLGregorianCalendar lastGregDate = pinged.getTimestamp();
-    //get lastest date and time, each in string format.  
-    String[] lastDateTime = getDateTime(lastGregDate);
-
-    //create search date variable
-    String sDate = commandWithParameters[2];
-    XMLGregorianCalendar searchDate = null;
-    Date pastDate = null;
-    double powerUsed = 0.0;
-
     // basic error checking.
-    if (!validLoc.isValid(area)) {
+    if (validLoc.isValid(area)) {
+
+      // ping server for last updated sensor data.
+      SensorData pinged = this.client.getLatestSensorData(area);
+      // get timestamp from last sensor data.
+      XMLGregorianCalendar lastGregDate = pinged.getTimestamp();
+      // get lastest date and time, each in string format.
+      String[] lastDateTime = getDateTime(lastGregDate);
+
+      // create search date variable
+      String sDate = commandWithParameters[2];
+      XMLGregorianCalendar searchDate = null;
+      Date pastDate = null;
+      double powerUsed = 0.0;
+
+      try {
+        pastDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(sDate);
+        searchDate = Tstamp.makeTimestamp(pastDate.getTime());
+        searchDate.setTime(0, 0, 0);
+      }
+      catch (ParseException e) {
+        // TODO Auto-generated catch block.
+        e.printStackTrace();
+      }
+
+      // calculate power since.
+      try {
+        powerUsed = getEnergyConsumed(area, searchDate, lastGregDate, 0) / 1000.0;
+      }
+      catch (WattDepotClientException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
+      System.out.format(
+          "Total energy consumption by %s from %s 00:00:00 to %s %s is: %.1f kWh. \n", area, sDate,
+          lastDateTime[0], lastDateTime[1], powerUsed);
+    }
+    else {
       System.out.println("Location provided is not a tower or lounge!");
     }
-    
-    try {
-      pastDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(sDate);
-      searchDate = Tstamp.makeTimestamp(pastDate.getTime());
-      searchDate.setTime(0, 0, 0);
-    }
-    catch (ParseException e) {
-      // TODO Auto-generated catch block.
-      e.printStackTrace();
-    }
-
-    // calculate power since.
-    try {
-      powerUsed = getEnergyConsumed(area, searchDate, lastGregDate, 0) / 1000.0;
-    }
-    catch (WattDepotClientException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    System.out.format("Total energy consumption by %s from %s 00:00:00 to %s %s is: %.1f kWh. \n", 
-        area, sDate, lastDateTime[0], lastDateTime[1], powerUsed);
   }
 
   /**
@@ -115,13 +118,13 @@ public class EnergySince implements Command {
     }
     return false;
   }
-  
+
   /**
    * Gets string values for the date and time from a GregorianCalendar object.
    * 
    * @param gregorianDate The GregorianCalendar object containing our date and time values.
-   * @return A String array with string values for the yyyy-MM-dd, and 00:00:00 formated
-   * date and time respectively. 
+   * @return A String array with string values for the yyyy-MM-dd, and 00:00:00 formated date and
+   * time respectively.
    */
   public String[] getDateTime(XMLGregorianCalendar gregorianDate) {
     String[] dateTime = new String[2];
@@ -132,20 +135,20 @@ public class EnergySince implements Command {
     hour = checkTens(gregorianDate.getHour());
     minute = checkTens(gregorianDate.getMinute());
     second = checkTens(gregorianDate.getSecond());
-    
+
     dateTime[0] = year + "-" + month + "-" + day;
     dateTime[1] = hour + ":" + minute + ":" + second;
     return dateTime;
   }
-  
+
   /**
-   * Checks a positive integer to see if it is below 10, if so turn it into a string with
-   * a preceding "0", else return a string of the number.
+   * Checks a positive integer to see if it is below 10, if so turn it into a string with a
+   * preceding "0", else return a string of the number.
    * 
    * @param num Integer to change to string.
    * @return String representation of num.
    */
-  public String checkTens (int num) {
+  public String checkTens(int num) {
     return ("" + (num < 10 ? "0" + num : num));
   }
 }
