@@ -36,19 +36,19 @@ public class CommandProcessor {
    * @throws Exception if problem connecting to WattDepot Server.
    */
   public void chooseModule(String command) throws Exception {
-    if (command.equals("current-power")) {
+    if ("current-power".equals(command)) {
       CurrentPower currentPower = new CurrentPower(client);
       currentPower.run(userInput);
     }
-    else if (command.equals("daily-energy")) {
+    else if ("daily-energy".equals(command)) {
       DailyEnergy dailyEnergy = new DailyEnergy(client);
       dailyEnergy.run(userInput);
     }
-    else if (command.equals("energy-since")) {
+    else if ("energy-since".equals(command)) {
       EnergySince energySince = new EnergySince(client);
       energySince.run(userInput);
     }
-    else if (command.equals("rank-towers")) {
+    else if ("rank-towers".equals(command)) {
       RankTowers rankTowers = new RankTowers(client);
       rankTowers.run(userInput);
     }
