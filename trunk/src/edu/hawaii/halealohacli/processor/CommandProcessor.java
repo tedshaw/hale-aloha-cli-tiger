@@ -2,6 +2,7 @@ package edu.hawaii.halealohacli.processor;
 
 import org.wattdepot.client.WattDepotClient;
 import edu.hawaii.halealohacli.command.CurrentPower;
+import edu.hawaii.halealohacli.command.DailyEnergy;
 import edu.hawaii.halealohacli.command.EnergySince;
 import edu.hawaii.halealohacli.command.Help;
 import edu.hawaii.halealohacli.command.RankTowers;
@@ -35,18 +36,19 @@ public class CommandProcessor {
    * @throws Exception if problem connecting to WattDepot Server.
    */
   public void chooseModule(String command) throws Exception {
-    if ("current-power".equals(command)) {
+    if (command.equals("current-power")) {
       CurrentPower currentPower = new CurrentPower(client);
       currentPower.run(userInput);
     }
-    else if ("daily-energy".equals(command)) {
-      System.out.println("dailyEnergy");
+    else if (command.equals("daily-energy")) {
+      DailyEnergy dailyEnergy = new DailyEnergy(client);
+      dailyEnergy.run(userInput);
     }
-    else if ("energy-since".equals(command)) {
+    else if (command.equals("energy-since")) {
       EnergySince energySince = new EnergySince(client);
       energySince.run(userInput);
     }
-    else if ("rank-towers".equals(command)) {
+    else if (command.equals("rank-towers")) {
       RankTowers rankTowers = new RankTowers(client);
       rankTowers.run(userInput);
     }
