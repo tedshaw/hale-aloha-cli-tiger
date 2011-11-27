@@ -24,7 +24,7 @@ public class Main {
     // Check to make sure a connection can be made.
     // If no connection, then exit right now.
     if (client.isHealthy()) {
-      System.out.println("Sucscessfully connected to the Hale Aloha Wattdepot Server");
+      System.out.println("Successfully connected to the Hale Aloha Wattdepot Server");
     }
     else {
       System.out.format("Could not connect to: %s%n", url);
