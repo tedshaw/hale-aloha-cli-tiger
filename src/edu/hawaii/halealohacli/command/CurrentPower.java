@@ -21,9 +21,8 @@ public class CurrentPower implements Command {
    * Instantiates this class and ensures that the passed URL identifies a running client.
    * 
    * @param client The WattDepot client.
-   * @throws Exception If the URL does not appear to point to a running WattDepot server.
    */
-  public CurrentPower(WattDepotClient client) throws Exception {
+  public CurrentPower(WattDepotClient client) {
     this.client = client;
   }
 
@@ -72,8 +71,11 @@ public class CurrentPower implements Command {
 
   @Override
   public boolean isValid(String command) {
+    ValidateLocation validlocate = new ValidateLocation();
+
+    
     String[] splitCommand = command.split(" ");
-    if (splitCommand.length == 2)  {
+    if (splitCommand.length == 2 && validlocate.isValid(splitCommand[1]))  {
       return true;
     }
     return false;
