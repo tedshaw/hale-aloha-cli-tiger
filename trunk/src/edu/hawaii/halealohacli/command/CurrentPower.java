@@ -48,7 +48,6 @@ public class CurrentPower implements Command {
   @Override
   public void run(String command) throws Exception {
 
-    System.out.println(command);
     CurrentPower application = new CurrentPower(this.client);
     String[] commandAndArgs = command.split(" ");
     
