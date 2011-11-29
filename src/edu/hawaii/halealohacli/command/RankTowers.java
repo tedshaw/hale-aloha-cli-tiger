@@ -11,7 +11,8 @@ import org.wattdepot.resource.source.jaxb.Source;
 /**
  * Lists the towers and their corresponding energy consumption amounts in ascending order.
  * 
- * @author Terrence Chida, Ardell Klemme
+ * @author Terrence Chida
+ * @author Ardell Klemme
  * 
  */
 public class RankTowers implements Command {
@@ -94,9 +95,9 @@ public class RankTowers implements Command {
         int thisMonth = now.getMonth();
         int today = now.getDay();
         XMLGregorianCalendar startTime =
-            DailyEnergy.setDay(now, startYear, startMonth, startDay, 0, 0, 0, 0);
+            DaySetter.setDay(now, startYear, startMonth, startDay, 0, 0, 0, 0);
         XMLGregorianCalendar endTime =
-            DailyEnergy.setDay(now2, endYear, endMonth, endDay, 23, 59, 59, 999);
+            DaySetter.setDay(now2, endYear, endMonth, endDay, 23, 59, 59, 999);
         // Check to see if input date is before today's date.
         if (endTime.getMonth() <= thisMonth && endTime.getDay() < today) {
           for (Source source : sources) {

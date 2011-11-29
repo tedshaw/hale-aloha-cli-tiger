@@ -18,8 +18,8 @@ public class DailyEnergy implements Command {
   WattDepotClient client;
 
   /**
-   * Initializes the RankTowers class with a WattDepotClient that is passed from
-   * the Command Processor class after it has been checked for a healthy
+   * Initializes the DailyEnergy class with a WattDepotClient that is passed
+   * from the Command Processor class after it has been checked for a healthy
    * connection.
    * 
    * @param client
@@ -51,7 +51,7 @@ public class DailyEnergy implements Command {
    * @param command
    *          Command line arguments.
    * @throws Exception
-   *          If there is an error accessing the server or user input errors.
+   *           If there is an error accessing the server or user input errors.
    */
   @Override
   public void run(String command) throws Exception {
@@ -76,9 +76,9 @@ public class DailyEnergy implements Command {
         int today = now.getDay();
         XMLGregorianCalendar now2 = client.getLatestSensorData(tower)
             .getTimestamp();
-        XMLGregorianCalendar start = DailyEnergy.setDay(now, year, month, day,
+        XMLGregorianCalendar start = DaySetter.setDay(now, year, month, day,
             0, 0, 0, 0);
-        XMLGregorianCalendar end = DailyEnergy.setDay(now2, year, month, day,
+        XMLGregorianCalendar end = DaySetter.setDay(now2, year, month, day,
             23, 59, 59, 999);
         // Check to see if input date is before today's date.
         if (end.getMonth() <= thisMonth && end.getDay() < today) {
@@ -95,39 +95,12 @@ public class DailyEnergy implements Command {
       else {
         System.out.println("Sorry, you have entered an invalid date.");
       }
-    } // end if one arg provided.
+    } // end if command is valid.
+    else {
+      System.out.println("The command is not a valid one.");
+    }
 
-  }
+  } // end run().
 
-  /**
-   * Creates an XMLGregorianCalendar date.
-   * 
-   * @param today
-   *          Today's date.
-   * @param year
-   *          The year to set.
-   * @param month
-   *          The month to set.
-   * @param day
-   *          The day to set.
-   * @param hour
-   *          The hour to set.
-   * @param min
-   *          The minute to set.
-   * @param sec
-   *          The second to set.
-   * @param millisec
-   *          The millisecond to set.
-   * @return The XMLGregorianCalendar date.
-   */
-  public static XMLGregorianCalendar setDay(XMLGregorianCalendar today,
-      int year, int month, int day, int hour, int min, int sec, int millisec) {
-    XMLGregorianCalendar d = today;
-    d.setYear(year);
-    d.setMonth(month);
-    d.setDay(day);
-    d.setTime(hour, min, sec, millisec);
-    return d;
-  } // end day()
 
-}
+} // end DailyEnergy
