@@ -24,10 +24,8 @@ public class DailyEnergy implements Command {
    * 
    * @param client
    *          The client to be used for this command.
-   * @throws Exception
-   *          If there is an error accessing the server or user input errors.
    */
-  public DailyEnergy(WattDepotClient client) throws Exception {
+  public DailyEnergy(WattDepotClient client) {
     this.client = client;
   }
 
