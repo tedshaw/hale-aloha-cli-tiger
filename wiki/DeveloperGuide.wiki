@@ -47,3 +47,5 @@ Once you have verified your local installation of hale-aloha-cli-tiger, you are 
   * Please develop a JUnit test case (either before, during, or after) development of a new feature to ensure it works.
 
   * Before committing changes, please make sure that "ant -f verify.build.xml" runs successfully. 
+
+  * Here is the link to the Continuous Integration on Jenkins: http://dasha.ics.hawaii.edu:9859/job/hale-aloha-cli-tiger/
