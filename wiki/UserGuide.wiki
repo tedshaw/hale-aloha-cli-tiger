@@ -6,7 +6,7 @@
 
 = 1.0 Download =
 
-Please download the latest distribution of !hale-aloha-cli-tiger from the [http://code.google.com/p/hale-aloha-cli-tiger/downloads/list Downloads] page.
+Please download the latest distribution of hale-aloha-cli-tiger from the [http://code.google.com/p/hale-aloha-cli-tiger/downloads/list Downloads] page.
 
 Then, unzip the distribution. 
 
