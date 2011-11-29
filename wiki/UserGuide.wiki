@@ -12,7 +12,7 @@ Then, unzip the distribution.
 
 = 2.0 Install =
 
-To install the prepackaged hale-aloha-cli-tiger application, find the file named hale-aloha-cli-tiger.DaCruzer.jar in the distribution.
+To install the prepackaged hale-aloha-cli-tiger application, find the file named hale-aloha-cli-tiger.jar in the distribution.
 
 Open a new terminal and move into the directory where the hale-aloha-cli-tiger.jar file is located (should be /build/jar/).
 
