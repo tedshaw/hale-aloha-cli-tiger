@@ -13,7 +13,7 @@ import org.wattdepot.client.WattDepotClient;
  * @author Ardell Klemme
  *
  */
-public class EnergySinceTest {
+public class TestEnergySince {
   WattDepotClient testClient = new WattDepotClient("http://server.wattdepot.org:8190/wattdepot/");
   EnergySince energyTest = new EnergySince(testClient);
   

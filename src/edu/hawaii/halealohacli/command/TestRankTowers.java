@@ -12,7 +12,7 @@ import org.wattdepot.client.WattDepotClient;
  * @author Ardell Klemme
  *
  */
-public class RankTowersTest {
+public class TestRankTowers {
   WattDepotClient testClient = new WattDepotClient("http://server.wattdepot.org:8190/wattdepot/");
   RankTowers rankTest = new RankTowers(testClient);
   
