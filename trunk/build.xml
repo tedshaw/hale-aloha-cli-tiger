@@ -22,8 +22,8 @@
 
   <!-- Basic properties for this system. -->
   <property name="system.name" value="hale-aloha-cli-tiger" />
-  <property name="majorVersionNumber" value="1" />
-  <property name="minorVersionNumber" value="1" />
+  <property name="majorVersionNumber" value="2" />
+  <property name="minorVersionNumber" value="0" />
   <tstamp>
     <format property="DAYSTAMP" pattern="yyyy.MM.dd.HH.mm" />
   </tstamp>
@@ -46,14 +46,4 @@
     </javac>
   </target>
   
-  <target name="run" depends="compile" description="Runs the simple application.">
-    <java classname="org.wattdepot.simpleapp.SimpleApplication" fork="yes" maxmemory="768m">
-      <classpath>
-        <pathelement location="${build.dir}/classes" />
-        <path refid="compile.classpath" />
-      </classpath>
-      <arg value="http://server.wattdepot.org:8190/wattdepot/"/>
-    </java>
-  </target>  
-
 </project>
