@@ -8,7 +8,6 @@ import edu.hawaii.halealohacli.processor.CommandProcessor;
  * Main class that prompts the user for commands.
  * 
  * @author Matthew Mizumoto
- * 
  */
 public class Main {
 
@@ -18,6 +17,7 @@ public class Main {
    * @throws Exception if cannot make connection to server
    */
   public static void main(String[] args) throws Exception {
+    CommandProcessor command;
     String url = "http://server.wattdepot.org:8190/wattdepot/";
     // Create a client.
     WattDepotClient client = new WattDepotClient(url);
@@ -30,12 +30,14 @@ public class Main {
       System.out.format("Could not connect to: %s%n", url);
       return;
     }
-
+    command = new CommandProcessor(client);
+    
+    System.out.format("%s", "> ");
     Scanner keybd = new Scanner(System.in);
     String input = keybd.nextLine();
     while (!("quit".equals(input))) {
-      CommandProcessor command = new CommandProcessor(client, input);
-      command.run();
+      command.run(input);
+      System.out.format("%s", "> ");
       input = keybd.nextLine();
     }
   }
