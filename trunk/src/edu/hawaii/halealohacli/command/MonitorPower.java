@@ -18,7 +18,6 @@ import org.wattdepot.util.tstamp.Tstamp;
  * 
  */
 public class MonitorPower implements Command {
-
   /**
    * Default constructor.
    * 
