@@ -7,6 +7,7 @@ import edu.hawaii.halealohacli.command.EnergySince;
 import edu.hawaii.halealohacli.command.Help;
 import edu.hawaii.halealohacli.command.RankTowers;
 import edu.hawaii.halealohacli.command.SetBaseline;
+import edu.hawaii.halealohacli.command.MonitorPower;
 
 
 /**
@@ -21,6 +22,7 @@ public class CommandProcessor {
   private EnergySince energySince;
   private RankTowers rankTowers;
   private SetBaseline setBaseline;
+  private MonitorPower monitorPower;
   
   /**
    * Constuctor method to access class level methods.
@@ -33,6 +35,7 @@ public class CommandProcessor {
     energySince = new EnergySince(client);
     rankTowers = new RankTowers(client);
     setBaseline = new SetBaseline(client);
+    monitorPower = new MonitorPower(client);
   }
 
   /**
@@ -58,6 +61,9 @@ public class CommandProcessor {
     }
     else if ("set-baseline".equals(command)) {
       setBaseline.run(userInput);
+    }
+    else if("monitor-power".equals(command)){
+      monitorPower.run(userInput);
     }
     else if ("help".equals(command)) {
       Help.run();
