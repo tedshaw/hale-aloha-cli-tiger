@@ -31,7 +31,7 @@ public class Main {
       return;
     }
     command = new CommandProcessor(client);
-    
+
     System.out.format("%s", "> ");
     Scanner keybd = new Scanner(System.in);
     String input = keybd.nextLine();
@@ -40,6 +40,7 @@ public class Main {
       System.out.format("%s", "> ");
       input = keybd.nextLine();
     }
+    
   }
 
 }
