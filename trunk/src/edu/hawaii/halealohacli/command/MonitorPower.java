@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.Locale;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
-import org.wattdepot.util.tstamp.Tstamp;
+import org.wattdepot.resource.sensordata.jaxb.SensorData;
+
 
 /**
  * This command prints out a timestamp and the current power for [tower | lounge] every [interval]
@@ -18,6 +19,8 @@ import org.wattdepot.util.tstamp.Tstamp;
  * 
  */
 public class MonitorPower implements Command {
+  WattDepotClient client;
+
   /**
    * Default constructor.
    * 
@@ -25,7 +28,7 @@ public class MonitorPower implements Command {
    * @see org.wattdepot.client.WattDepotClient
    */
   public MonitorPower(WattDepotClient client) {
-    // wattDepotClient = client;
+    this.client = client;
   }
 
   /**
@@ -69,31 +72,28 @@ public class MonitorPower implements Command {
     }
     String[] cmd = command.split(" ");
     String source = cmd[1];
-    XMLGregorianCalendar startTime = null, endTime = null, tmpTime = null;
+    long interval;
     if (cmd.length > 2) {
-      String date = cmd[2];
-      startTime = Tstamp.makeTimestamp(date);
+      String intervalString = cmd[2];
+      interval = Integer.parseInt(intervalString) * 1000;
     }
     else {
-      startTime = Tstamp.makeTimestamp();
-      startTime.setHour(0);
-      startTime.setMinute(0);
-      startTime.setSecond(0);
-      startTime.setMillisecond(0);
-      startTime =
-          Tstamp.makeTimestamp(startTime.toGregorianCalendar().getTimeInMillis()
-              - (1000L * 60 * 60 * 24));
+      interval = 10 * 1000;
     }
-    endTime = Tstamp.incrementDays(startTime, 1);
+
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
-    for (int i = 1; i <= 24; i++) {
-      tmpTime = Tstamp.incrementHours(startTime, i);
-      System.out.format("%s \t%s \t%s \t%s\n", source,
-          format.format(new Date(startTime.toGregorianCalendar().getTimeInMillis())),
-          format.format(new Date(tmpTime.toGregorianCalendar().getTimeInMillis())),
-          format.format(new Date(endTime.toGregorianCalendar().getTimeInMillis())));
+    while (System.in.available() == 0) {
+      SensorData data = client.getLatestSensorData(source);
+      XMLGregorianCalendar latestTime = data.getTimestamp();
+      String currentTime =
+          format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
+      double power = data.getPropertyAsDouble("powerConsumed");
+      System.out.format("%s's power consumption at %s is: %s kWh.\n", source,
+          currentTime, (int) power);
+      Thread.sleep(interval);
     }
+    
   }
 
 }
