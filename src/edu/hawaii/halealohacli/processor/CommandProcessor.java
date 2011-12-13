@@ -8,6 +8,7 @@ import edu.hawaii.halealohacli.command.Help;
 import edu.hawaii.halealohacli.command.RankTowers;
 import edu.hawaii.halealohacli.command.SetBaseline;
 import edu.hawaii.halealohacli.command.MonitorPower;
+import edu.hawaii.halealohacli.command.MonitorGoal;
 
 /**
  * Processes the command given by the user and executes then executes it.
@@ -22,6 +23,7 @@ public class CommandProcessor {
   private RankTowers rankTowers;
   private SetBaseline setBaseline;
   private MonitorPower monitorPower;
+  private MonitorGoal monitorGoal;
 
   /**
    * Constuctor method to access class level methods.
@@ -63,6 +65,9 @@ public class CommandProcessor {
     }
     else if ("monitor-power".equals(command)) {
       monitorPower.run(userInput);
+    }
+    else if ("monitor-goal".equals(command)) {
+      monitorGoal.run(userInput);
     }
     else if ("help".equals(command)) {
       Help.run();
