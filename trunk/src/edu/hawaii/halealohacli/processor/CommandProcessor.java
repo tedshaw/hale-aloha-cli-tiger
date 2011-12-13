@@ -37,6 +37,7 @@ public class CommandProcessor {
     rankTowers = new RankTowers(client);
     setBaseline = new SetBaseline(client);
     monitorPower = new MonitorPower(client);
+    monitorGoal = new MonitorGoal(client);
   }
 
   /**

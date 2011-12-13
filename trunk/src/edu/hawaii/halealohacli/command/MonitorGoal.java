@@ -41,7 +41,7 @@ public class MonitorGoal implements Command {
   @Override
   public boolean isValid(String command) {
     String[] cmd = command.split(" ");
-    if (cmd.length < 2) {
+    if (cmd.length < 3) {
       System.err.println("Insufficient number of arguments given.");
       System.err.println("Usage: monitor-power [tower | lounge] [interval]");
       return false;
@@ -49,8 +49,8 @@ public class MonitorGoal implements Command {
     if (!"monitor-power".equals(cmd[0])) {
       return false;
     }
-    if (cmd.length > 2) {
-      String intervalString = cmd[2];
+    if (cmd.length > 3) {
+      String intervalString = cmd[3];
       int interval = Integer.parseInt(intervalString);
       if (interval < 0) {
         return false;
