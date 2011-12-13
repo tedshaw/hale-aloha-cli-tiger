@@ -87,7 +87,8 @@ public class SetBaseline implements Command {
     }
     String[] cmd = command.split(" ");
     String source = cmd[1];
-    XMLGregorianCalendar startTime = null, endTime = null, tmpTime = null;
+    String filename = source + ".xml";
+    XMLGregorianCalendar startTime = null, tmpTime = null;
     if (cmd.length > 2) {
       String date = cmd[2];
       startTime = Tstamp.makeTimestamp(date);
@@ -102,16 +103,16 @@ public class SetBaseline implements Command {
           Tstamp.makeTimestamp(startTime.toGregorianCalendar().getTimeInMillis()
               - (1000L * 60 * 60 * 24));
     }
-    endTime = Tstamp.incrementDays(startTime, 1);
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
+    Baseline baselineData = new Baseline(source);
     for (int i = 1; i <= 24; i++) {
       tmpTime = Tstamp.incrementHours(startTime, i);
-      System.out.format("%s \t%s \t%s \t%s\n", source,
+      System.out.format("%s \t%s \t%s\n", source,
           format.format(new Date(startTime.toGregorianCalendar().getTimeInMillis())),
-          format.format(new Date(tmpTime.toGregorianCalendar().getTimeInMillis())),
-          format.format(new Date(endTime.toGregorianCalendar().getTimeInMillis())));
+          format.format(new Date(tmpTime.toGregorianCalendar().getTimeInMillis())));
     }
+    baselineData.storeToFile(filename);
   }
 
 }
