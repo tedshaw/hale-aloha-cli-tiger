@@ -7,7 +7,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
 import org.wattdepot.resource.sensordata.jaxb.SensorData;
 
-
 /**
  * This command prints out a timestamp and the current power for [tower | lounge] every [interval]
  * seconds. [interval] is an optional integer greater than 0 and defaults to 10 seconds. Entering
@@ -88,12 +87,11 @@ public class MonitorPower implements Command {
       XMLGregorianCalendar latestTime = data.getTimestamp();
       String currentTime =
           format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
-      double power = data.getPropertyAsDouble("powerConsumed")/1000;
-      System.out.format("%s's power consumption at %s is: %.2f kW.\n", source,
-          currentTime, power);
+      double power = data.getPropertyAsDouble("powerConsumed") / 1000;
+      System.out.format("%s's power consumption at %s is: %.2f kW.\n", source, currentTime, power);
       Thread.sleep(interval);
     }
-    
+
   }
 
 }
