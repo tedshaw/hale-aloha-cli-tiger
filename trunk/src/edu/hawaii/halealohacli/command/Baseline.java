@@ -113,16 +113,12 @@ public class Baseline {
     }
     // create the root element
     Element rootElement = dom.createElement("BaselineDay");
-    rootElement.setAttribute("from", source);
+    rootElement.setAttribute("source", source);
     dom.appendChild(rootElement);
 
     for (int index = 0; index < TIME_PARTITIONS; index++) {
       Element baselineElement = dom.createElement("BaselineHour");
-      // create and append index
-      Element indexElement = dom.createElement("TimeIndex");
-      Text indexText = dom.createTextNode(String.valueOf(index));
-      indexElement.appendChild(indexText);
-      baselineElement.appendChild(indexElement);
+      baselineElement.setAttribute("index", String.valueOf(index));
       // create and append baseline data
       Element powerElement = dom.createElement("Power");
       Text powerText = dom.createTextNode(String.valueOf(powerBaseline[index]));

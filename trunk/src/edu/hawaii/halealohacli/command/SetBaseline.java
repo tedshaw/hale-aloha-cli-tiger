@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import javax.xml.datatype.XMLGregorianCalendar;
+import org.wattdepot.client.BadXmlException;
 import org.wattdepot.client.WattDepotClient;
+import org.wattdepot.client.WattDepotClientException;
 import org.wattdepot.util.tstamp.Tstamp;
 
 /**
@@ -30,7 +32,7 @@ import org.wattdepot.util.tstamp.Tstamp;
  * @author Toy Lim
  */
 public class SetBaseline implements Command {
-  // private WattDepotClient wattDepotClient;
+  private WattDepotClient wattDepotClient;
 
   /**
    * Default constructor.
@@ -39,7 +41,7 @@ public class SetBaseline implements Command {
    * @see org.wattdepot.client.WattDepotClient
    */
   public SetBaseline(WattDepotClient client) {
-    // wattDepotClient = client;
+    wattDepotClient = client;
   }
 
   /**
@@ -88,7 +90,7 @@ public class SetBaseline implements Command {
     String[] cmd = command.split(" ");
     String source = cmd[1];
     String filename = source + ".xml";
-    XMLGregorianCalendar startTime = null, tmpTime = null;
+    XMLGregorianCalendar startTime = null;
     if (cmd.length > 2) {
       String date = cmd[2];
       startTime = Tstamp.makeTimestamp(date);
@@ -103,16 +105,39 @@ public class SetBaseline implements Command {
           Tstamp.makeTimestamp(startTime.toGregorianCalendar().getTimeInMillis()
               - (1000L * 60 * 60 * 24));
     }
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
     Baseline baselineData = new Baseline(source);
+    XMLGregorianCalendar hourStart = null, hourStop = null;
+    hourStart = startTime;
     for (int i = 1; i <= 24; i++) {
-      tmpTime = Tstamp.incrementHours(startTime, i);
-      System.out.format("%s \t%s \t%s\n", source,
-          format.format(new Date(startTime.toGregorianCalendar().getTimeInMillis())),
-          format.format(new Date(tmpTime.toGregorianCalendar().getTimeInMillis())));
+      hourStop = Tstamp.incrementHours(startTime, i);
+
+      try {
+        Double energy = wattDepotClient.getEnergyConsumed(source, hourStart, hourStop, 0);
+        baselineData.setBaseline(i - 1, energy);
+      }
+      catch (BadXmlException e) {
+        XMLGregorianCalendar firstData = null;
+        try {
+          firstData = wattDepotClient.getSourceSummary(source).getFirstSensorData();
+        }
+        catch (WattDepotClientException e1) {
+          System.err.println("Error attempting to access data from " + source);
+          return;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        System.err.format(
+            "Error attempting to access data from date. Please use a date on or after %s\n",
+            format.format(new Date(firstData.toGregorianCalendar().getTimeInMillis())));
+        return;
+      }
+      catch (WattDepotClientException e) {
+        System.err.format("Error attempting to access data from %s\n", source);
+        return;
+      }
+
+      hourStart = hourStop;
     }
     baselineData.storeToFile(filename);
   }
-
 }
