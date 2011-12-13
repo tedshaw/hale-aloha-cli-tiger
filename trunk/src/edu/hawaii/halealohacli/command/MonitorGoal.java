@@ -49,7 +49,12 @@ public class MonitorGoal implements Command {
     if (!"monitor-goal".equals(cmd[0])) {
       return false;
     }
-    if (cmd.length > 3) {
+    if (cmd.length > 4) {
+      String goalString = cmd[2];
+      int goal = Integer.parseInt(goalString);
+      if (goal < 0 && goal < 99) {
+        return false;
+      }
       String intervalString = cmd[3];
       int interval = Integer.parseInt(intervalString);
       if (interval < 0) {
@@ -72,14 +77,11 @@ public class MonitorGoal implements Command {
     }
     String[] cmd = command.split(" ");
     String source = cmd[1];
-    long interval;
-    if (cmd.length > 2) {
-      String intervalString = cmd[2];
-      interval = Integer.parseInt(intervalString) * 1000;
-    }
-    else {
-      interval = 10 * 1000;
-    }
+    String goalString = cmd[2];
+    String intervalString = cmd[3];
+
+    int goal = Integer.parseInt(goalString);
+    long interval = Integer.parseInt(intervalString) * 1000;
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -89,15 +91,23 @@ public class MonitorGoal implements Command {
 
     SensorData data;
     XMLGregorianCalendar latestTime;
-    String currentTime = null;
-    double power = 0;
+    String dataTime = null;
+    double currentPower = 0;
+    String metGoal;
 
     while (System.in.available() == 0) {
       data = client.getLatestSensorData(source);
       latestTime = data.getTimestamp();
-      currentTime = format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
-      power = data.getPropertyAsDouble("powerConsumed") / 1000;
-      System.out.format("%s's power consumption at %s is: %.2f kW.\n", source, currentTime, power);
+      dataTime = format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
+      currentPower = data.getPropertyAsDouble("powerConsumed") / 1000;
+      if (currentPower < goal) {
+        metGoal = "Goal met.";
+      }
+      else {
+        metGoal = "Goal not met.";
+      }
+      System.out.format("%s's power consumption at %s is: %.2f kW. %s\n", source, dataTime,
+          currentPower, metGoal);
       for (int i = 0; i < interval * 4 / 1000 && System.in.available() == 0; i++) {
         Thread.sleep(250);
       }
@@ -105,6 +115,6 @@ public class MonitorGoal implements Command {
 
     Scanner keybd = new Scanner(System.in);
     keybd.nextLine();
-
   }
+
 }
