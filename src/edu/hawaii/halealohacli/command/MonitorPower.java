@@ -88,9 +88,9 @@ public class MonitorPower implements Command {
       XMLGregorianCalendar latestTime = data.getTimestamp();
       String currentTime =
           format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
-      double power = data.getPropertyAsDouble("powerConsumed");
-      System.out.format("%s's power consumption at %s is: %s kWh.\n", source,
-          currentTime, (int) power);
+      double power = data.getPropertyAsDouble("powerConsumed")/1000;
+      System.out.format("%s's power consumption at %s is: %.2f kW.\n", source,
+          currentTime, power);
       Thread.sleep(interval);
     }
     
