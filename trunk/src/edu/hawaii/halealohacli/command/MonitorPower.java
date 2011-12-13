@@ -3,6 +3,7 @@ package edu.hawaii.halealohacli.command;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Scanner;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
 import org.wattdepot.resource.sensordata.jaxb.SensorData;
@@ -82,16 +83,28 @@ public class MonitorPower implements Command {
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
+    System.out.format(
+        "Retrieving current power for %s every %s seconds.\nPress Enter to stop.\n\n", source,
+        interval / 1000);
+
+    SensorData data;
+    XMLGregorianCalendar latestTime;
+    String currentTime = null;
+    double power = 0;
+
     while (System.in.available() == 0) {
-      SensorData data = client.getLatestSensorData(source);
-      XMLGregorianCalendar latestTime = data.getTimestamp();
-      String currentTime =
-          format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
-      double power = data.getPropertyAsDouble("powerConsumed") / 1000;
+      data = client.getLatestSensorData(source);
+      latestTime = data.getTimestamp();
+      currentTime = format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
+      power = data.getPropertyAsDouble("powerConsumed") / 1000;
       System.out.format("%s's power consumption at %s is: %.2f kW.\n", source, currentTime, power);
-      Thread.sleep(interval);
+      for (int i = 0; i < interval * 4 / 1000 && System.in.available() == 0; i++) {
+        Thread.sleep(250);
+      }
     }
 
-  }
+    Scanner keybd = new Scanner(System.in);
+    keybd.nextLine();
 
+  }
 }
