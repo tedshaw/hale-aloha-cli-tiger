@@ -139,5 +139,6 @@ public class SetBaseline implements Command {
       hourStart = hourStop;
     }
     baselineData.storeToFile(filename);
+    System.out.format("%s has been successfully created.\n", filename);
   }
 }
