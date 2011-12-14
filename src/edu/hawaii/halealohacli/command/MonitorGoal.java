@@ -171,7 +171,7 @@ public class MonitorGoal implements Command {
         }
         format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         System.err.format(
-            "Error attempting to access data from date. Please use a date on or after %s\n",
+            "Error attempting to access data from date. Please use a date after %s\n",
             format.format(new Date(firstData.toGregorianCalendar().getTimeInMillis())));
         return;
       }
