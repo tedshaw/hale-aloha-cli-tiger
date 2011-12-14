@@ -103,12 +103,12 @@ public class MonitorGoal implements Command {
     String[] cmd = command.split(" ");
     String source = cmd[1];
     String goalString = cmd[2];
-    String intervalString = cmd[3];
 
     int goal = Integer.parseInt(goalString);
 
     long interval = 0;
     if (cmd.length > 3) {
+      String intervalString = cmd[3];
       interval = Integer.parseInt(intervalString) * 1000;
     }
     else {
