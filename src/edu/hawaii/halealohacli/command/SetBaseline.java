@@ -142,7 +142,7 @@ public class SetBaseline implements Command {
       hourStart = hourStop;
     }
     baselineData.storeToFile(filename);
-    System.out.format("%s has been successfully created with power data from %s on %s.\n",
-        filename, source, date);
+    System.out.format("Successfully stored baseline data for %s on %s in file %s.\n", source, date,
+        filename);
   }
 }
