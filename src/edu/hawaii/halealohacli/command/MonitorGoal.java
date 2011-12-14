@@ -103,7 +103,7 @@ public class MonitorGoal implements Command {
     calendar.setTime(date); // assigns calendar to given date
     int timeIndex = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
 
-    Baseline base = new Baseline();
+    Baseline base = new Baseline(source);
 
     if (!base.retrieveFromFile(source + ".xml")) {
       System.err.println("A prior baseline power has not been set. "
