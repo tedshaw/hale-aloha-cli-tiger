@@ -116,14 +116,14 @@ public class MonitorGoal implements Command {
       latestTime = data.getTimestamp();
       dataTime = format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
       currentPower = data.getPropertyAsDouble("powerConsumed") / 1000;
-      basePower = base.getBaseline(timeIndex);
+      basePower = base.getBaseline(timeIndex) / 1000;
       if (currentPower <= basePower * (100 - goal) / 100) {
         metGoal = "Goal met.";
       }
       else {
         metGoal = "Goal not met.";
       }
-      System.out.format("%s's power consumption at %s is: %.2f kW. Base power is: %.2f. %s\n",
+      System.out.format("%s's power consumption at %s is: %.2f kW. Base power is: %.2f kW. %s\n",
           source, dataTime, currentPower, basePower, metGoal);
       for (int i = 0; i < interval * 4 / 1000 && System.in.available() == 0; i++) {
         Thread.sleep(250);
