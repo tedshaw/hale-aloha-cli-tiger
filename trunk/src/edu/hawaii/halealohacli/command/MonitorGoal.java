@@ -45,7 +45,7 @@ public class MonitorGoal implements Command {
   @Override
   public boolean isValid(String command) {
     String[] cmd = command.split(" ");
-    if (cmd.length < 4) {
+    if (cmd.length < 3) {
       System.err.println("Insufficient number of arguments given.");
       System.err.println("Usage: monitor-goal [tower | lounge] [goal] [interval]");
       return false;
