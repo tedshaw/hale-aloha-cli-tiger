@@ -2,6 +2,7 @@ package edu.hawaii.halealohacli.command;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,7 +14,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
 
 /**
  * Baseline class to hold baseline data as well as storage and retrieval method. Uses XML methods
@@ -156,7 +159,67 @@ public class Baseline {
    * @return true if success, false otherwise
    */
   public boolean retrieveFromFile(String filename) {
-    //
+    Document dom;
+    // get the factory
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    try {
+      // Using factory get an instance of document builder
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      // parse using builder to get DOM representation of the XML file
+      dom = db.parse(filename);
+    }
+    catch (ParserConfigurationException pce) {
+      //pce.printStackTrace();
+      System.err.format("Parser configuration error (%s)\n", filename);
+      return false;
+    }
+    catch (SAXException se) {
+      //se.printStackTrace();
+      System.err.format("Error encountered while parsing the file %s\n", filename);
+      return false;
+    }
+    catch (IOException ioe) {
+      //ioe.printStackTrace();
+      System.err.format("Warning: %s not found\n", filename);
+      return false;
+    }
+
+    // parse baseline data
+    Element rootElement = dom.getDocumentElement();
+    if (!source.equals(rootElement.getAttribute("source"))) {
+      System.err.format("Warning: document source (%s) does not match object source (%s)\n",
+          rootElement.getAttribute("source"), source);
+      source = rootElement.getAttribute("source");
+    }
+
+    NodeList baselineList = rootElement.getElementsByTagName("BaselineHour");
+    if(baselineList != null && baselineList.getLength() > 0) {
+      for(int i = 0 ; i < baselineList.getLength();i++) {
+        
+        //get a baseline element
+        Element baselineElement = (Element)baselineList.item(i);
+        
+        //parse the baseline element
+        int index = Integer.parseInt(baselineElement.getAttribute("index"));
+        double power = 0.0;
+        NodeList powerList = baselineElement.getElementsByTagName("Power");
+        if(baselineList != null && baselineList.getLength() > 0) {
+          Element powerElement = (Element)powerList.item(0);
+          power = Double.parseDouble(powerElement.getFirstChild().getNodeValue());
+        }
+        else {
+          System.err.format("Warning: \"Power\" field element missing from index %d.\n", index);
+        }
+        
+        // store parsed results
+        setBaseline(index, power);
+      }
+    }
+    else {
+      System.err.println("XML file format error detected.");
+      return false;
+    }
+
     return true;
   }
 }
