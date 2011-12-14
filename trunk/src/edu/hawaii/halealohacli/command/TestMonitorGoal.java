@@ -30,6 +30,11 @@ public class TestMonitorGoal {
   public void testValid() {
     assertTrue("Number of commands is valid", monitorGoal.isValid("monitor-goal Ilima 85 10"));
     assertFalse("Number of commands is invalid", monitorGoal.isValid("monitor-goal"));
+    monitorGoal.isValid("fake-command");
+    monitorGoal.isValid("monitor-goal Ilima 110 10");
+    monitorGoal.isValid("fake-command Ilima 110 10");
+    monitorGoal.isValid("monitor-goal Ilima sdf asdf");
+    monitorGoal.isValid("monitor-goal Ilima 2 asdf");
   }
 
   /**
@@ -37,6 +42,20 @@ public class TestMonitorGoal {
    */
   @Test
   public void testRun() {
+    WattDepotClient client = new WattDepotClient("http://server.wattdepot.org:8190/wattdepot/");
+    SetBaseline setBaseline = new SetBaseline(client);
+
+    try {
+      setBaseline.run("set-baseline Ilima");
+      monitorGoal.run("monitor-goal Ilima");
+      monitorGoal.run("monitor-goal Ilima 2 -2");
+      monitorGoal.run("fake-command");
+    }
+    catch (Exception e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    
     PipedOutputStream testOutStream = new PipedOutputStream();
     InputStream testInStream;
     try {
