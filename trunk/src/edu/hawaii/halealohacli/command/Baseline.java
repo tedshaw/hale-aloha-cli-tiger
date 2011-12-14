@@ -207,7 +207,7 @@ public class Baseline {
         int index = Integer.parseInt(baselineElement.getAttribute("index"));
         double power = 0.0;
         NodeList powerList = baselineElement.getElementsByTagName("Power");
-        if (baselineList != null && baselineList.getLength() > 0) {
+        if (powerList != null && powerList.getLength() > 0) {
           Element powerElement = (Element) powerList.item(0);
           power = Double.parseDouble(powerElement.getFirstChild().getNodeValue());
         }
