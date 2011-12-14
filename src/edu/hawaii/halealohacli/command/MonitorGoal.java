@@ -1,7 +1,9 @@
 package edu.hawaii.halealohacli.command;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Scanner;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -93,21 +95,35 @@ public class MonitorGoal implements Command {
     XMLGregorianCalendar latestTime;
     String dataTime = null;
     double currentPower = 0;
+    double basePower = 0;
     String metGoal;
+
+    Date date = new Date();
+    Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+    calendar.setTime(date); // assigns calendar to given date
+    int timeIndex = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
+
+    Baseline base = new Baseline();
+
+    if (!base.retrieveFromFile(source + ".xml")) {
+      System.err.println("A prior baseline power has not been set. "
+          + "Please use the set-baseline command first.");
+    }
 
     while (System.in.available() == 0) {
       data = client.getLatestSensorData(source);
       latestTime = data.getTimestamp();
       dataTime = format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
       currentPower = data.getPropertyAsDouble("powerConsumed") / 1000;
-      if (currentPower < goal) {
+      basePower = base.getBaseline(timeIndex);
+      if (currentPower <= (double) basePower * (100 - goal) / 100) {
         metGoal = "Goal met.";
       }
       else {
         metGoal = "Goal not met.";
       }
-      System.out.format("%s's power consumption at %s is: %.2f kW. %s\n", source, dataTime,
-          currentPower, metGoal);
+      System.out.format("%s's power consumption at %s is: %.2f kW. Base power is: %.2f. %s\n",
+          source, dataTime, currentPower, basePower, metGoal);
       for (int i = 0; i < interval * 4 / 1000 && System.in.available() == 0; i++) {
         Thread.sleep(250);
       }
