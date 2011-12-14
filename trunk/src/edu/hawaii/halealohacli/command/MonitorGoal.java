@@ -53,21 +53,23 @@ public class MonitorGoal implements Command {
     if (!"monitor-goal".equals(cmd[0])) {
       return false;
     }
-    if (cmd.length >= 4) {
-      String goalString = cmd[2];
-      int goal;
-      try {
-        goal = Integer.parseInt(goalString);
-      }
-      catch (NumberFormatException e) {
-        //e1.printStackTrace();
-        System.err.format("Invalid goal: %s\n", goalString);
-        return false;
-      }
-      if (goal < 1 || goal > 99) {
-        System.err.format("Goal out of range: %d (1 to 99)\n", goal);
-        return false;
-      }
+
+    String goalString = cmd[2];
+    int goal;
+    try {
+      goal = Integer.parseInt(goalString);
+    }
+    catch (NumberFormatException e) {
+      // e1.printStackTrace();
+      System.err.format("Invalid goal: %s\n", goalString);
+      return false;
+    }
+    if (goal < 1 || goal > 99) {
+      System.err.format("Goal out of range: %d (1 to 99)\n", goal);
+      return false;
+    }
+
+    if (cmd.length > 3) {
       String intervalString = cmd[3];
       int interval;
       try {
@@ -82,6 +84,7 @@ public class MonitorGoal implements Command {
         System.err.format("Invalid interval: %d\n", interval / 1000);
         return false;
       }
+
     }
     return true;
   }
@@ -103,7 +106,14 @@ public class MonitorGoal implements Command {
     String intervalString = cmd[3];
 
     int goal = Integer.parseInt(goalString);
-    long interval = Integer.parseInt(intervalString) * 1000;
+
+    long interval = 0;
+    if (cmd.length > 3) {
+      interval = Integer.parseInt(intervalString) * 1000;
+    }
+    else {
+      interval = 10 * 1000;
+    }
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
