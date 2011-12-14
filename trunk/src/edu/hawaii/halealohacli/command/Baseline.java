@@ -29,25 +29,29 @@ public class Baseline {
    * TIME_PARTITIONS is a constant set to 24.
    */
   public static final int TIME_PARTITIONS = 24;
+  /**
+   * SOURCE is a constant version of the String "source".
+   */
+  public static final String SOURCE = "source";
   private double[] powerBaseline;
-  private String source;
+  private String dataSource;
 
   /**
    * Default constructor.
    */
   public Baseline() {
     powerBaseline = new double[TIME_PARTITIONS];
-    source = "unknown";
+    dataSource = "unknown";
   }
 
   /**
    * Constructor with source argument.
    * 
-   * @param dataSource Name of baseline source
+   * @param sensorSource Name of baseline source
    */
-  public Baseline(String dataSource) {
+  public Baseline(String sensorSource) {
     powerBaseline = new double[TIME_PARTITIONS];
-    source = dataSource;
+    dataSource = sensorSource;
   }
 
   /**
@@ -116,7 +120,7 @@ public class Baseline {
     }
     // create the root element
     Element rootElement = dom.createElement("BaselineDay");
-    rootElement.setAttribute("source", source);
+    rootElement.setAttribute(SOURCE, dataSource);
     dom.appendChild(rootElement);
 
     for (int index = 0; index < TIME_PARTITIONS; index++) {
@@ -186,10 +190,10 @@ public class Baseline {
 
     // parse baseline data
     Element rootElement = dom.getDocumentElement();
-    if (!source.equals(rootElement.getAttribute("source"))) {
+    if (!dataSource.equals(rootElement.getAttribute(SOURCE))) {
       System.err.format("Warning: document source (%s) does not match object source (%s)\n",
-          rootElement.getAttribute("source"), source);
-      source = rootElement.getAttribute("source");
+          rootElement.getAttribute(SOURCE), dataSource);
+      dataSource = rootElement.getAttribute(SOURCE);
     }
 
     NodeList baselineList = rootElement.getElementsByTagName("BaselineHour");
