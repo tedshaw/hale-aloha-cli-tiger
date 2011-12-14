@@ -108,6 +108,7 @@ public class MonitorGoal implements Command {
     if (!base.retrieveFromFile(source + ".xml")) {
       System.err.println("A prior baseline power has not been set. "
           + "Please use the set-baseline command first.");
+      return;
     }
 
     while (System.in.available() == 0) {
