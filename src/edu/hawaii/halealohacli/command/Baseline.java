@@ -169,17 +169,17 @@ public class Baseline {
       dom = db.parse(filename);
     }
     catch (ParserConfigurationException pce) {
-      //pce.printStackTrace();
+      // pce.printStackTrace();
       System.err.format("Parser configuration error (%s)\n", filename);
       return false;
     }
     catch (SAXException se) {
-      //se.printStackTrace();
+      // se.printStackTrace();
       System.err.format("Error encountered while parsing the file %s\n", filename);
       return false;
     }
     catch (IOException ioe) {
-      //ioe.printStackTrace();
+      // ioe.printStackTrace();
       System.err.format("Warning: %s not found\n", filename);
       return false;
     }
@@ -193,24 +193,24 @@ public class Baseline {
     }
 
     NodeList baselineList = rootElement.getElementsByTagName("BaselineHour");
-    if(baselineList != null && baselineList.getLength() > 0) {
-      for(int i = 0 ; i < baselineList.getLength();i++) {
-        
-        //get a baseline element
-        Element baselineElement = (Element)baselineList.item(i);
-        
-        //parse the baseline element
+    if (baselineList != null && baselineList.getLength() > 0) {
+      for (int i = 0; i < baselineList.getLength(); i++) {
+
+        // get a baseline element
+        Element baselineElement = (Element) baselineList.item(i);
+
+        // parse the baseline element
         int index = Integer.parseInt(baselineElement.getAttribute("index"));
         double power = 0.0;
         NodeList powerList = baselineElement.getElementsByTagName("Power");
-        if(baselineList != null && baselineList.getLength() > 0) {
-          Element powerElement = (Element)powerList.item(0);
+        if (baselineList != null && baselineList.getLength() > 0) {
+          Element powerElement = (Element) powerList.item(0);
           power = Double.parseDouble(powerElement.getFirstChild().getNodeValue());
         }
         else {
           System.err.format("Warning: \"Power\" field element missing from index %d.\n", index);
         }
-        
+
         // store parsed results
         setBaseline(index, power);
       }
