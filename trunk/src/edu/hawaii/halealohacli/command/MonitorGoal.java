@@ -116,7 +116,7 @@ public class MonitorGoal implements Command {
       dataTime = format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
       currentPower = data.getPropertyAsDouble("powerConsumed") / 1000;
       basePower = base.getBaseline(timeIndex);
-      if (currentPower <= (double) basePower * (100 - goal) / 100) {
+      if (currentPower <= basePower * (100 - goal) / 100) {
         metGoal = "Goal met.";
       }
       else {
