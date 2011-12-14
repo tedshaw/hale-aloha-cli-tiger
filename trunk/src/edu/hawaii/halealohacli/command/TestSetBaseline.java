@@ -12,41 +12,41 @@ import org.wattdepot.client.WattDepotClient;
  * 
  */
 public class TestSetBaseline {
-  WattDepotClient client = new WattDepotClient("http://server.wattdepot.org:8190/wattdepot/");
-  SetBaseline setBaseline = new SetBaseline(client);
+    WattDepotClient client = new WattDepotClient("http://server.wattdepot.org:8190/wattdepot/");
+    SetBaseline setBaseline = new SetBaseline(client);
 
-  /**
-   * Tests isValid() method for the set-baseline command.
-   */
-  @Test
-  public void testIsValid() {
-    assertTrue("Number of commands is valid", setBaseline.isValid("set-baseline Ilima"));
-    assertFalse("Number of commands is invalid", setBaseline.isValid("set-baseline"));
-    setBaseline.isValid("set-baseline Ilima 55-55-55");
-    setBaseline.isValid("fake-command Ilima 55-55-55");
-    assertFalse("Invalid command", setBaseline.isValid("invalid-command args"));
-    assertFalse("Invalid command", setBaseline.isValid("set-baseline Ilima 2011-33-44"));
-  }
-
-  /**
-   * Tests the run() method for the set-baseline command.
-   */
-  @Test
-  public void testRun() {
-    try {
-      setBaseline.run("set-baseline Ilima 2011-12-02");
-      setBaseline.run("fake-command Ilima 2011-12-02");
-      setBaseline.run("set-baseline Ilima");
-      setBaseline.run("set-baseline Ilima");
-      setBaseline.run("foo-bar");
-      setBaseline.run("set-baseline foo-bar");
-      setBaseline.run("set-baseline Ilima 2022-22-33");
-      setBaseline.run("set-baseline Ilima 2011-09-25");
+    /**
+     * Tests isValid() method for the set-baseline command.
+     */
+    @Test
+    public void testIsValid() {
+      assertTrue("Number of commands is valid", setBaseline.isValid("set-baseline Ilima"));
+      assertFalse("Number of commands is invalid", setBaseline.isValid("set-baseline"));
+      setBaseline.isValid("set-baseline Ilima 55-55-55");
+      setBaseline.isValid("fake-command Ilima 55-55-55");
+      assertFalse("Invalid command", setBaseline.isValid("invalid-command args"));
+      assertFalse("Invalid command", setBaseline.isValid("set-baseline Ilima 2011-33-44"));
     }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-    
-  }
 
-}
+    /**
+     * Tests the run() method for the set-baseline command.
+     */
+    @Test
+    public void testRun() {
+      try {
+        setBaseline.run("set-baseline Ilima 2011-12-02");
+        setBaseline.run("fake-command Ilima 2011-12-02");
+        setBaseline.run("set-baseline Ilima");
+        setBaseline.run("set-baseline Ilima");
+        setBaseline.run("foo-bar");
+        setBaseline.run("set-baseline foo-bar");
+        setBaseline.run("set-baseline Ilima 2022-22-33");
+        setBaseline.run("set-baseline Ilima 2011-09-25");
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
+
+    }
+
+  }

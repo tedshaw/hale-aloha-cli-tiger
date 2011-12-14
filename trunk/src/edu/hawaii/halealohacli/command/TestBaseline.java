@@ -2,7 +2,6 @@ package edu.hawaii.halealohacli.command;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import org.wattdepot.client.WattDepotClient;
 
 /**
  * Junit test class for Baseline class.
