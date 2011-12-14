@@ -22,8 +22,13 @@ public class TestSetBaseline {
   public void testIsValid() {
     assertTrue("Number of commands is valid", setBaseline.isValid("set-baseline Ilima"));
     assertFalse("Number of commands is invalid", setBaseline.isValid("set-baseline"));
+<<<<<<< .mine
+    setBaseline.isValid("set-baseline Ilima 55-55-55");
+    setBaseline.isValid("fake-command Ilima 55-55-55");
+=======
     assertFalse("Invalid command", setBaseline.isValid("invalid-command args"));
     assertFalse("Invalid command", setBaseline.isValid("set-baseline Ilima 2011-33-44"));
+>>>>>>> .r107
   }
 
   /**
@@ -33,16 +38,21 @@ public class TestSetBaseline {
   public void testRun() {
     try {
       setBaseline.run("set-baseline Ilima 2011-12-02");
+<<<<<<< .mine
+      setBaseline.run("fake-command Ilima 2011-12-02");
+      setBaseline.run("set-baseline Ilima");
+=======
       setBaseline.run("set-baseline Ilima");
       setBaseline.run("foo-bar");
       setBaseline.run("set-baseline foo-bar");
       setBaseline.run("set-baseline Ilima 2022-22-33");
       setBaseline.run("set-baseline Ilima 2011-09-25");
+>>>>>>> .r107
     }
     catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      return;
     }
+    
   }
 
 }

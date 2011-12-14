@@ -81,7 +81,7 @@ public class DailyEnergy implements Command {
         XMLGregorianCalendar end = DaySetter.setDay(now2, year, month, day,
             23, 59, 59, 999);
         // Check to see if input date is before today's date.
-        if (end.getMonth() <= thisMonth && end.getDay() < today) {
+        if ((end.getMonth() <= thisMonth) && (end.getDay() < today)) {
           energy = client.getEnergyConsumed(tower, start, end, 0);
           System.out.println(start);
           System.out.println(end);
