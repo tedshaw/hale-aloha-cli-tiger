@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
 import javax.xml.datatype.XMLGregorianCalendar;
+import org.wattdepot.client.BadXmlException;
 import org.wattdepot.client.WattDepotClient;
+import org.wattdepot.client.WattDepotClientException;
 import org.wattdepot.resource.sensordata.jaxb.SensorData;
 
 /**
@@ -15,8 +17,6 @@ import org.wattdepot.resource.sensordata.jaxb.SensorData;
  * the command loop.
  * 
  * @author Ted Shaw
- * 
- * 
  */
 public class MonitorPower implements Command {
   WattDepotClient client;
@@ -51,8 +51,17 @@ public class MonitorPower implements Command {
     }
     if (cmd.length > 2) {
       String intervalString = cmd[2];
-      int interval = Integer.parseInt(intervalString);
+      int interval;
+      try {
+        interval = Integer.parseInt(intervalString) * 1000;
+      }
+      catch (NumberFormatException e) {
+        // e.printStackTrace();
+        System.err.format("Invalid interval: %s\n", intervalString);
+        return false;
+      }
       if (interval < 0) {
+        System.err.format("Invalid interval: %d\n", interval / 1000);
         return false;
       }
     }
@@ -93,13 +102,35 @@ public class MonitorPower implements Command {
     double power = 0;
 
     while (System.in.available() == 0) {
-      data = client.getLatestSensorData(source);
-      latestTime = data.getTimestamp();
-      currentTime = format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
-      power = data.getPropertyAsDouble("powerConsumed") / 1000;
-      System.out.format("%s's power consumption at %s is: %.2f kW.\n", source, currentTime, power);
-      for (int i = 0; i < interval * 4 / 1000 && System.in.available() == 0; i++) {
-        Thread.sleep(250);
+      try {
+        data = client.getLatestSensorData(source);
+        latestTime = data.getTimestamp();
+        currentTime = format.format(new Date(latestTime.toGregorianCalendar().getTimeInMillis()));
+        power = data.getPropertyAsDouble("powerConsumed") / 1000;
+        System.out
+            .format("%s's power consumption at %s is: %.2f kW.\n", source, currentTime, power);
+        for (int i = 0; i < interval * 4 / 1000 && System.in.available() == 0; i++) {
+          Thread.sleep(250);
+        }
+      }
+      catch (BadXmlException e) {
+        XMLGregorianCalendar firstData = null;
+        try {
+          firstData = client.getSourceSummary(source).getFirstSensorData();
+        }
+        catch (WattDepotClientException e1) {
+          System.err.println("Error attempting to access data from " + source);
+          return;
+        }
+        format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        System.err.format(
+            "Error attempting to access data from date. Please use a date on or after %s\n",
+            format.format(new Date(firstData.toGregorianCalendar().getTimeInMillis())));
+        return;
+      }
+      catch (WattDepotClientException e) {
+        System.err.format("Error attempting to access data from %s\n", source);
+        return;
       }
     }
 
