@@ -91,8 +91,9 @@ public class SetBaseline implements Command {
     String source = cmd[1];
     String filename = source + ".xml";
     XMLGregorianCalendar startTime = null;
+    String date = null;
     if (cmd.length > 2) {
-      String date = cmd[2];
+      date = cmd[2];
       startTime = Tstamp.makeTimestamp(date);
     }
     else {
@@ -104,6 +105,8 @@ public class SetBaseline implements Command {
       startTime =
           Tstamp.makeTimestamp(startTime.toGregorianCalendar().getTimeInMillis()
               - (1000L * 60 * 60 * 24));
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+      date = format.format(new Date(startTime.toGregorianCalendar().getTimeInMillis()));
     }
 
     Baseline baselineData = new Baseline(source);
@@ -139,6 +142,7 @@ public class SetBaseline implements Command {
       hourStart = hourStop;
     }
     baselineData.storeToFile(filename);
-    System.out.format("%s has been successfully created.\n", filename);
+    System.out.format("%s has been successfully created with power data from %s on %s.\n",
+        filename, source, date);
   }
 }
