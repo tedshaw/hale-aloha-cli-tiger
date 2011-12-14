@@ -88,7 +88,7 @@ public class MonitorGoal implements Command {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
     System.out.format(
-        "Retrieving current power for %s every %s seconds.\nPress Enter to stop.\n\n", source,
+        "Retrieving current power for %s every %s seconds.\n[Press Enter to stop.]\n\n", source,
         interval / 1000);
 
     SensorData data;
