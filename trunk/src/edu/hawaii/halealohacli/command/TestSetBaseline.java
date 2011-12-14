@@ -44,7 +44,7 @@ public class TestSetBaseline {
       setBaseline.run("set-baseline Ilima 2011-09-25");
     }
     catch (Exception e) {
-      return;
+      e.printStackTrace();
     }
     
   }

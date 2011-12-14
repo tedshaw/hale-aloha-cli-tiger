@@ -1,6 +1,6 @@
 package edu.hawaii.halealohacli.command;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.wattdepot.client.WattDepotClient;
 
@@ -11,7 +11,6 @@ import org.wattdepot.client.WattDepotClient;
  * 
  */
 public class TestBaseline {
-  WattDepotClient client = new WattDepotClient("http://server.wattdepot.org:8190/wattdepot/");
   Baseline defaultBase = new Baseline();
   Baseline baseline = new Baseline("Ilima");
 
@@ -30,6 +29,7 @@ public class TestBaseline {
   @Test
   public void testSetBaseline() {
     baseline.setBaseline(1);
+    defaultBase.setBaseline(1);
     baseline.setBaseline(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4);
   }
 
