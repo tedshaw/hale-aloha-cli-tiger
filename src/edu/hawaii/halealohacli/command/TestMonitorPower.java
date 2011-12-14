@@ -29,6 +29,11 @@ public class TestMonitorPower {
   public void testValid() {
     assertTrue("Number of commands is valid", monitorPower.isValid("monitor-power Ilima 9"));
     assertFalse("Number of commands is invalid", monitorPower.isValid("monitor-power"));
+    monitorPower.isValid("fake-command");
+    monitorPower.isValid("monitor-power Ilima");
+    monitorPower.isValid("fake-command Ilima");
+    monitorPower.isValid("monitor-power Ilima -5");
+    monitorPower.isValid("monitor-power Ilima dsf");
   }
 
   /**
@@ -36,6 +41,16 @@ public class TestMonitorPower {
    */
   @Test
   public void testRun() {
+    try {
+      monitorPower.run("monitor-power Ilima -1");
+      monitorPower.run("fake-command");
+    }
+    catch (Exception e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+
+    
     PipedOutputStream testOutStream = new PipedOutputStream();
     InputStream testInStream;
     try {
